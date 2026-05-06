@@ -1,11 +1,13 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { AuthorizationGuard } from './authorization.guard.js';
 import { casbinProvider, ENFORCER } from './casbin.provider.js';
 import {Reflector} from "@nestjs/core";
 import { Enforcer } from 'casbin';
+
+@Global()
 @Module({
-  providers: [AuthorizationGuard, Reflector,  Enforcer],
-  exports: [AuthorizationGuard, Reflector,  Enforcer],
+  providers: [Reflector, Enforcer],
+  exports: [Reflector, ENFORCER],
 })
 
 export class AuthorizationModule {
@@ -27,7 +29,6 @@ export class AuthorizationModule {
         casbinProvider,
         AuthorizationGuard,
       ],
-      exports: [AuthorizationGuard, ENFORCER],
     };
   }
 }
