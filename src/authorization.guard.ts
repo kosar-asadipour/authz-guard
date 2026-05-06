@@ -5,10 +5,10 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from './public.decorator.js';
+import { IS_SKIP_AUTHZ_KEY } from './skip-authz.decorator.js';
 import { Enforcer } from 'casbin';
 import {PERMISSION_KEY} from "./permission.decorator.js";
-import {ENFORCER} from "./casbin.provider";
+import {ENFORCER} from "./casbin.provider.js";
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
@@ -19,11 +19,11 @@ export class AuthorizationGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     /** 1. Check Public Route */
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    const isSkipAuthz = this.reflector.getAllAndOverride<boolean>(IS_SKIP_AUTHZ_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
+    if (isSkipAuthz) {
       return true;
     }
     /**2. Check if the user has the required permission for the route */
