@@ -32,11 +32,9 @@ export class AuthorizationGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     /**EXAMPLE
-     request = {
-         user :{
-           userId: "10cc3340-7d3e-4cf2-a052-bb948e776686",
-           userRole: "admin"
-         }
+     request.user = {
+       userId: "10cc3340-7d3e-4cf2-a052-bb948e776686",
+       userRole: "admin"
      }*/
     const user = request.user;
     if (!user) {
